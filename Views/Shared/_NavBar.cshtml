@@ -24,6 +24,24 @@
                 <li class="@ActiveItem("About", "Home", null)">@Html.ActionLink("About", "About", "Home")</li>
                 <li class="@ActiveItem("Contact", "Home", null)">@Html.ActionLink("Contact", "Contact", "Home")</li>
             </ul>
+            @if (Request.IsAuthenticated)
+            {
+            <ul class="nav navbar-nav navbar-right">
+                <li class="@ActiveItem("Manage", "Account", null)">@Html.ActionLink("Ciao " + User.Identity.Name + "!", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                <li><a class="btn btn-success" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
+            }
+            else
+            {
+            <ul class="nav navbar-nav navbar-right">
+                <li class="@ActiveItem("Register", "Account", null)">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                <li class="@ActiveItem("Login", "Account", null)">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            </ul>
+            }
         </div>
     </div>
 </div>
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-form navbar-right", @role = "form" }))
+{
+    @Html.AntiForgeryToken()
+}
